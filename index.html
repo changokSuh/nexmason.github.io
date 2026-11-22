@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NEXMASON | 산업용 제어장치 · 전자회로 · 펌웨어 개발</title>
+  <style>
+    :root {
+      --bg-dark: #0a0f1c;
+      --bg-card: #111827;
+      --bg-card-hover: #1a2436;
+      --primary: #3b82f6;
+      --primary-glow: rgba(59, 130, 246, 0.25);
+      --accent: #06b6d4;
+      --text-main: #f3f4f6;
+      --text-muted: #9ca3af;
+      --border: #1f2937;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Pretendard", "Noto Sans KR", sans-serif;
+      background-color: var(--bg-dark);
+      color: var(--text-main);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    /* Navigation */
+    header {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      background: rgba(10, 15, 28, 0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      z-index: 1000;
+    }
+
+    .nav-container {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      font-size: 1.5rem;
+      font-weight: 800;
+      letter-spacing: 0.12em;
+      color: #fff;
+    }
+
+    .logo span {
+      color: var(--primary);
+    }
+
+    nav ul {
+      display: flex;
+      list-style: none;
+      gap: 1.5rem;
+      font-size: 0.9rem;
+      font-weight: 500;
+    }
+
+    nav a:hover {
+      color: var(--primary);
+    }
+
+    .nav-actions {
+      display: flex;
+      gap: 0.75rem;
+      align-items: center;
+    }
+
+    .btn-sm {
+      padding: 0.4rem 0.8rem;
+      border-radius: 6px;
+      font-size: 0.8rem;
+      border: 1px solid var(--border);
+      background: var(--bg-card);
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .btn-sm:hover {
+      border-color: var(--primary);
+      color: #fff;
+    }
+
+    /* Common Layout */
+    section {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 6rem 2rem;
+    }
+
+    .section-tag {
+      display: inline-block;
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      color: var(--accent);
+      text-transform: uppercase;
+      margin-bottom: 0.5rem;
+    }
+
+    .section-title {
+      font-size: 2.25rem;
+      font-weight: 800;
+      margin-bottom: 1rem;
+      line-height: 1.3;
+    }
+
+    .section-desc {
+      color: var(--text-muted);
+      max-width: 720px;
+      margin-bottom: 3rem;
+      font-size: 1.05rem;
+    }
+
+    /* Hero Section */
+    .hero {
+      padding-top: 10rem;
+      padding-bottom: 6rem;
+      border-bottom: 1px solid var(--border);
+      background: radial-gradient(circle at 80% 20%, var(--primary-glow), transparent 45%);
+    }
+
+    .hero h1 {
+      font-size: 3.2rem;
+      font-weight: 800;
+      line-height: 1.25;
+      margin-bottom: 1.5rem;
+    }
+
+    .hero h1 em {
+      font-style: normal;
+      color: var(--primary);
+    }
+
+    .hero p {
+      font-size: 1.15rem;
+      color: var(--text-muted);
+      max-width: 680px;
+      margin-bottom: 2.5rem;
+    }
+
+    .hero-badges {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1rem;
+      margin-top: 3rem;
+    }
+
+    .badge-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      padding: 1.25rem;
+      border-radius: 10px;
+    }
+
+    .badge-card strong {
+      display: block;
+      color: var(--accent);
+      font-size: 0.85rem;
+      margin-bottom: 0.25rem;
+    }
+
+    /* Grid Cards */
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(420px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.75rem;
+      transition: transform 0.2s, border-color 0.2s;
+    }
+
+    .card:hover {
+      transform: translateY(-4px);
+      border-color: var(--primary);
+    }
+
+    .card-num {
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--primary);
+      margin-bottom: 0.5rem;
+      display: block;
+    }
+
+    .card h3 {
+      font-size: 1.25rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .card p {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+    }
+
+    /* CEO Message */
+    .ceo-box {
+      background: linear-gradient(145deg, #111827, #0d1424);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 3rem;
+    }
+
+    .ceo-text p {
+      color: #d1d5db;
+      margin-bottom: 1.2rem;
+      font-size: 1.02rem;
+    }
+
+    .ceo-sign {
+      margin-top: 2rem;
+      font-weight: 700;
+      font-size: 1.1rem;
+      color: #fff;
+    }
+
+    /* History Timeline */
+    .timeline {
+      border-left: 2px solid var(--border);
+      padding-left: 2rem;
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+    }
+
+    .timeline-item {
+      position: relative;
+    }
+
+    .timeline-item::before {
+      content: "";
+      position: absolute;
+      left: -2.4rem;
+      top: 0.4rem;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: var(--primary);
+      box-shadow: 0 0 10px var(--primary);
+    }
+
+    .timeline-year {
+      font-size: 1.2rem;
+      font-weight: 800;
+      color: var(--accent);
+      margin-bottom: 0.25rem;
+    }
+
+    /* Product Specs */
+    .spec-list {
+      margin-top: 1rem;
+      padding-top: 1rem;
+      border-top: 1px solid var(--border);
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .spec-tag {
+      background: rgba(59, 130, 246, 0.1);
+      color: #93c5fd;
+      font-size: 0.8rem;
+      padding: 0.25rem 0.6rem;
+      border-radius: 4px;
+    }
+
+    /* Interactive Tools Preview */
+    .tool-box {
+      background: #080c16;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1rem;
+      margin-top: 1rem;
+      font-family: monospace;
+      font-size: 0.85rem;
+    }
+
+    .tool-input {
+      width: 100%;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      color: #fff;
+      padding: 0.5rem;
+      border-radius: 6px;
+      margin-bottom: 0.5rem;
+    }
+
+    .btn-primary {
+      background: var(--primary);
+      color: #fff;
+      border: none;
+      padding: 0.65rem 1.25rem;
+      border-radius: 6px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .btn-primary:hover {
+      background: #2563eb;
+    }
+
+    /* Process Steps */
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+      margin-top: 2rem;
+    }
+
+    .step-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      padding: 1.25rem;
+      border-radius: 10px;
+    }
+
+    .step-card span {
+      color: var(--primary);
+      font-weight: 800;
+      font-size: 0.85rem;
+    }
+
+    /* Contact Form */
+    .contact-form {
+      display: grid;
+      gap: 1rem;
+      max-width: 640px;
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+
+    input, select, textarea {
+      width: 100%;
+      padding: 0.8rem;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      background: var(--bg-card);
+      color: #fff;
+      font-family: inherit;
+    }
+
+    /* Modal */
+    .modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.75);
+      z-index: 2000;
+      justify-content: center;
+      align-items: center;
+      padding: 1rem;
+    }
+
+    .modal.active {
+      display: flex;
+    }
+
+    .modal-content {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 2rem;
+      max-width: 400px;
+      width: 100%;
+      position: relative;
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      font-size: 1.5rem;
+      cursor: pointer;
+    }
+
+    /* Footer */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 3rem 2rem;
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 0.9rem;
+    }
+
+    @media (max-width: 768px) {
+      nav ul { display: none; }
+      .hero h1 { font-size: 2.2rem; }
+      .form-row { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header>
+    <div class="nav-container">
+      <a href="#" class="logo">NEX<span>MASON</span></a>
+      <nav>
+        <ul>
+          <li><a href="#what-we-do">사업영역</a></li>
+          <li><a href="#ceo">회사소개</a></li>
+          <li><a href="#history">연혁</a></li>
+          <li><a href="#software">소프트웨어</a></li>
+          <li><a href="#products">제품</a></li>
+          <li><a href="#solutions">솔루션</a></li>
+          <li><a href="#contact">문의</a></li>
+        </ul>
+      </nav>
+      <div class="nav-actions">
+        <button class="btn-sm" onclick="openModal('연구원 인트라넷', '발급받은 사내 계정으로 로그인해 주세요.')">연구원</button>
+        <button class="btn-sm" onclick="openModal('협력업체 인트라넷', '발급받은 협력업체 계정으로 로그인해 주세요.')">협력업체</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <span class="section-tag">Integrated Control Technology</span>
+    <h1>회로에서 현장까지,<br /><em>하나의 기술</em>로 연결합니다.</h1>
+    <p>
+      NEXMASON은 전자회로 설계와 펌웨어, 서버 개발부터 제조·양산, 현장 설치까지 책임지는 산업용 제어 솔루션 기업입니다.
+    </p>
+    <a href="#contact" class="btn-primary">프로젝트 문의하기 →</a>
+
+    <div class="hero-badges">
+      <div class="badge-card">
+        <strong>H/W</strong>
+        전자회로 · PCB 설계
+      </div>
